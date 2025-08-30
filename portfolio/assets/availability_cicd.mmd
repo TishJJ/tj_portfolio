@@ -1,0 +1,56 @@
+%% availability_cicd.
+
+flowchart TD
+  %% Top-level flow
+  GOV[Governance<br/> Policies, Templates, Standards] -. injects templates & checks .-> REPO[New Repository<br/> created via governed process]
+  REPO --> LWF["New Repo Local Workflows<br/>ci.yml<br/>pre_release.yml<br/>release.yml"]
+  
+  subgraph github_wkflow["folders in .github/workflows/"]
+    direction TB
+    LWF -->|calls| RW["Reusable Workflows<br/>lang-ci.yml<br/>lang-pre_release.yml<br/>lang-release.yml"]
+  end
+
+  %% Reusable workflow internals
+  subgraph Reusable_Workflows_Internals["Reusable Workflows - building blocks"]
+    direction TB
+    CA[Composite Action<br/>.github/composite-actions/*.yml]:::action
+    JA[JavaScript Action<br/>repo name - action_js_*]:::action
+    DA[Docker Action<br/>repo name - action_docker_*]:::action
+    RW1[Reusable Workflow<br/>.github/workflows/reuse-*.yml]:::action
+  end
+
+  RW --> CA
+  RW --> JA
+  RW --> DA
+  RW --> RW1
+
+
+%% Pipeline steps (triggered by reusable workflows)
+Reusable_Workflows_Internals --> BUILD[Build the application]
+Reusable_Workflows_Internals --> SEC_TEST[Security Scan Step]
+Reusable_Workflows_Internals --> UNIT_TEST[Unit Test Step]
+Reusable_Workflows_Internals --> DEPLOY[Deployment<br/> OpenShift, IIS, etc.]
+
+SEC_TEST -. surfaced at end of jobs .-> SEC_REPORT[Security Report<br/> link to detailed findings]
+
+
+%% Styling
+classDef gov fill:#ffa94d,stroke:#444,stroke-width:1px,color:#000;
+classDef repo fill:#ffd8a8,stroke:#444,stroke-width:1px,color:#000;
+classDef local fill:#9ad6e5,stroke:#2b5d68,stroke-width:1px,color:#08313a;
+classDef reus fill:#d0b3ff,stroke:#4b2e83,stroke-width:1px,color:#160a33;
+classDef action fill:#bcd5ff,stroke:#294b7a,stroke-width:1px,color:#0a1f3a;
+classDef sec fill:#9ad6e5,stroke:#2b5d68,stroke-width:1px,color:#08313a;
+classDef deploy fill:#9ad6e5,stroke:#2b5d68,stroke-width:1px,color:#08313a;
+classDef build fill:#9ad6e5,stroke:#2b5d68,stroke-width:1px,color:#08313a;
+classDef unit_test fill:#9ad6e5,stroke:#2b5d68,stroke-width:1px,color:#08313a;
+
+class GOV gov
+class REPO repo
+class LWF local
+class RW reus
+class RW1 action
+class SEC_TEST,SEC_REPORT sec
+class DEPLOY deploy
+class BUILD build
+class UNIT_TEST unit_test
