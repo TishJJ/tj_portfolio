@@ -1,0 +1,18 @@
+flowchart TD
+  GOV[Governance<br/> Policies, Templates, Standards]  -. injects templates & checks .-> REPO[New Repository<br/> created via governed process]
+  REPO --> LWF["New Repo Local Workflows<br/>.github/workflows/ci|pre_release|release.yml"]
+  LWF -->|calls| RW["Reusable Workflows<br/>.github/workflows/lang-ci.yml|lang-pre_release|lang-release.yml"]
+  
+  %% Reusable workflow internals
+  subgraph Reusable_Workflows_Internals["Reusable - building blocks"]
+    direction TB
+    CA[Composite Action<br> .github/composite-actions/*.yml]:::action
+    JA[JavaScript Action]:::action
+    DA[Docker Action]:::action
+    RW1[Reusable Workflow]:::action
+  end
+
+  RW --> CA
+  RW --> JA
+  RW --> DA
+  RW --> RW1
