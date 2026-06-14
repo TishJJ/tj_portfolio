@@ -1,4 +1,4 @@
-# Case Study: Availability-Focused CI/CD Migration & Governance Platform
+# Case Study: CI/CD Migration & Governance Platform
 
 ## Context
 
@@ -21,6 +21,38 @@ The delay was compounded by:
 - No centralized governance for workflows — every team building pipelines differently.
 
 - Security results buried in logs or reports and challenging to assess or act on consistently from build changes.
+
+---
+
+## Before vs. After
+
+### Legacy Architecture (Before)
+
+- Build pipeline lived in an older CI/CD system separate from version control.
+- Security scanning was not part of the normal build — operated as a separate manual or semi-manual process.
+- Results did not flow back into the main pipeline; build failures did not include security data.
+- No unified metrics for failures, coverage, or vulnerabilities.
+- Governance existed as tribal knowledge, not templates.
+- Teams had to manually execute security steps — slow and inconsistent.
+
+### Target Architecture (After)
+
+- Pipelines exist natively inside the VCS platform.
+- Repo creation triggers pre-approved governance templates automatically.
+- All pipelines extend from centralized reusable workflows.
+- Security scanning is embedded at the end of each job — visible, linked, stored consistently, part of the developer feedback loop.
+- Failures include security criteria, not just build criteria.
+- Policy enforcement is predictable and enforced by design, not by process.
+
+### Highlighted Improvements
+
+| Area | Before | After |
+|------|--------|-------|
+| Security scanning | Manual, separate pipeline | Embedded in every build job |
+| Governance | Tribal knowledge | Templates enforced at repo creation |
+| Pipeline maintenance | 200+ unique workflows | 6 central workflows |
+| Security feedback | Weeks after merge | During development |
+| Auditability | Inconsistent | Centralized, structured output |
 
 ---
 
@@ -73,8 +105,6 @@ Adopted a hybrid pipeline architecture that balanced developer autonomy with cen
 ## Artifacts
 
 Architecture overview of the hybrid workflow model:
-
-**Governance Workflow architecture overview**
 
 ```mermaid
 flowchart TD
