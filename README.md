@@ -1,59 +1,93 @@
 # Tish Johnson — Engineering Portfolio
 
-Principal Platform Architect and Solutions Engineer with 10+ years designing systems that reduce operational risk at scale. I specialize in IDP architecture, CI/CD governance, and customer-facing technical advisory — the intersection of platform engineering and consulting.
+Principal Platform Architect and Solutions Engineer specializing in the intersection of platform engineering, AI systems governance, and DevSecOps. My work centers on a single thread: **deterministic control over probabilistic or chaotic systems** — making complex systems safer, faster, and easier to operate at scale.
 
-This portfolio documents real work: decisions made under constraint, tradeoffs considered, outcomes measured.
+This portfolio documents real work: decisions made under constraint, tradeoffs considered, failure modes analyzed, outcomes measured.
 
 ---
 
 ## Case Studies
 
-### [CI/CD Migration & Governance Platform](./portfolio/case-studies/cicd_governance_platform.md)
+### [CI/CD Migration & Governance Platform](https://github.com/TishJJ/tj_portfolio/blob/main/portfolio/case-studies/cicd_governance_platform.md)
+
 *Platform Engineering · IDP · DevSecOps · GitHub Actions*
 
-Inherited a CI/CD migration 12+ months behind schedule with no governance model and no security visibility. Designed and delivered a hybrid stub workflow architecture that now powers 200+ repositories with 6 central workflows — achieving 107% increase in automated deployments, 50% faster releases, and 75% reduction in pipeline complexity.
+Inherited a CI/CD migration 12+ months behind schedule with no governance model and no security visibility. Designed and delivered a hybrid stub workflow architecture — 6 central workflows governing 200+ repositories — achieving a 107% increase in automated deployments, 50% faster releases, and 75% reduction in pipeline complexity.
 
-**Key outcomes:** 107% deployment increase · 50% faster releases · 75% complexity reduction · 90% security coverage · 25% vulnerability reduction
-
----
-
-### [Failure Mode Analysis — Thread Pool Exhaustion](./portfolio/labs/thread_pool_exhaustion/failure_mode_analysis.md)
-*Systems Reliability · Failure Mode Analysis · Observability · Docker*
-
-A production-realistic failure scenario: a Flask/Gunicorn API with a missing timeout exhausts its thread pool under concurrent load while the health check continues returning 200. Full diagnostic methodology — process level, syscall level, network level — plus a structured 5-step resolution workflow. Includes runnable lab with reproduction and resolution scripts.
-
-**Key insights:** Health checks can lie · Remediation is not resolution · SPC framing for proactive drift detection · Fault mode analysis applied to software design
+**Key outcomes:** 107% deployment increase · 50% faster releases · 75% complexity reduction · ~90% security coverage · 25% vulnerability reduction
 
 ---
 
-### [Why Stub Workflows Are a Force Multiplier](./portfolio/case-studies/why_stub_workflows.md)
-*Architecture Patterns · Platform Engineering · Developer Experience*
+### [Governance Is Not a Gate — It's an Acceleration Layer](https://github.com/TishJJ/tj_portfolio/blob/main/portfolio/case-studies/governance_not_a_gate.md)
 
-A practitioner's guide to the stub workflow pattern — how a small platform team can govern hundreds of repositories without burnout, and why the pattern generalizes beyond GitHub Actions to API gateways, Kubernetes operators, and control plane/data plane separation.
+*Platform Engineering · DevSecOps · Pipeline Architecture · Policy Enforcement*
 
-**Key insight:** 6 central workflows supporting 200+ repositories. Onboarding time reduced from 1-2 weeks to minutes.
+The gate model assumes two systems: delivery and governance. One builds and ships. The other reviews and approves. The handoff between them is where velocity goes to die. This piece documents a three-stage model for collapsing those two systems into one.
+
+**Stage 1 — Enforce:** Governance becomes an execution layer. Controls are embedded in the pipeline, not scheduled separately. Policy is present from the first commit. Teams can't accidentally skip required controls — they're not optional.
+
+**Stage 2 — Measure:** Embedded controls generate structured output (SBOM, SARIF). That output becomes the signal for trending — not just "are we scanning" but "is our posture improving." Metrics include Mean Time to Clean Commit and Time to First Clean Commit.
+
+**Stage 3 — Predict:** SCA signal from Stage 2 trains a recommendation engine that guides library selection before a dependency is committed. IDE integration moves the intervention earlier still. Change selection rate measures prevention at the exact point it happens.
+
+The connecting insight: treating pipeline execution as a data problem — not a process problem — makes governance retroactively queryable. A new policy applied against captured execution data answers a new question about what already happened without re-instrumenting anything.
 
 ---
+
+## Architecture Decision Records
+
+ADRs documenting technical decisions made under real constraints — with tradeoffs, alternatives considered, and where reasoning led. Includes explicit disclosure of AI collaboration where relevant.
+
+### [LLM Tooling Selection — Prompts, Scripts, MCP, and Frameworks](https://github.com/TishJJ/tj_portfolio/blob/main/portfolio/adr/adr_llm_tool_selection.md)
+
+*AI Systems Architecture · Platform Engineering*
+
+A decision framework for choosing between prompts, scripts, local tools, MCP servers, and LLM orchestration frameworks. The central insight: establish decision ownership before selecting tooling. Who owns the decision — and what data the LLM is allowed to see — determines the right tool. Tooling selected before ownership is established inherits whatever is wrong about the assumption underneath it.
+
+**Core framework:** Decision ownership → LLM role (executor / advisor / excluded) → tooling selection
+
+---
+
+### [DuckDB httpfs → Two-Pass Polars/PyArrow Architecture](https://github.com/TishJJ/tj_portfolio/blob/main/portfolio/adr/adr_duckdb_to_polars.md)
+
+*Data Engineering · Memory-Constrained Processing · AI Collaboration Disclosure*
+
+Documents the decision to move from DuckDB httpfs to a two-pass reservoir sampling architecture for processing 1.5B+ NYC Yellow Taxi TLC records within a 4GB RAM constraint. Includes an explicit AI collaboration layer documenting where Claude was adopted, modified, or overridden — and what that reveals about using LLMs as reasoning partners versus solution generators.
+
+**Key outcomes:** 56.7x speedup · reservoir error < 0.08% at p90 · resume-capable · 4GB RAM stable
+
+---
+
+## Diagnostic Labs
+
+Hands-on failure analysis with reproducible environments, layered evidence, and documented resolution methodology. Code and scripts included.
+
+### [Thread Pool Exhaustion — Failure Mode Analysis](https://github.com/TishJJ/tj_portfolio/blob/main/portfolio/labs/thread_pool_exhaustion/failure_mode_analysis.md)
+
+*Systems Reliability · Failure Analysis · Flask · Gunicorn*
+
+A Flask API under concurrent load fills its thread pool entirely — every thread blocked waiting for an upstream that never returns. The service reports healthy throughout: process running, port listening, `/health` returning 200. Standard monitoring never fires. This lab reproduces the failure deterministically, traces it through process state, syscall behavior, and network state, and documents the distinction between remediation (clearing blocked threads) and resolution (fixing the design).
+
+**Key insight:** Health checks are a contract, not a guarantee. Proactive drift detection on leading indicators — thread utilization, P90 latency, connection state — catches this class of failure before the health check knows anything is wrong.
+
+**[→ Full lab with reproduction and resolution scripts](https://github.com/TishJJ/tj_portfolio/tree/main/portfolio/labs/thread_pool_exhaustion)**
+
+---
+
+## External Projects
 
 ### [NYC Yellow Taxi — Distance Outlier Finder](https://github.com/TishJJ/TB_TakeHome)
-*Data Engineering · Python · Polars · PyArrow*
 
-Technical assessment project: find all NYC yellow taxi trips above the 90th percentile of trip distance across every monthly Parquet file published by the TLC (1.5B+ rows). Solved real production constraints — CloudFront blocking, OOM kills on 4GB and 12GB environments — using a two-pass reservoir sampling architecture with Polars lazy scan pushdown.
+*Data Engineering · Python · Polars · PyArrow · DuckDB*
 
-**Key outcomes:** Processes full TLC dataset (2009–present) within 4GB RAM · Reservoir sample error < 0.08% at p90 · Resume-capable across interrupted runs
+Find all NYC yellow taxi trips above the 90th percentile of trip distance across the full TLC historical dataset (2009–present, 1.5B+ rows). Solved real production constraints: CloudFront rate limiting blocking naive download approaches, OOM kills on both 4GB and 12GB environments. Implemented a two-pass architecture — PyArrow `iter_batches` reservoir sampling for threshold estimation, Polars lazy scan with predicate pushdown for outlier extraction.
 
----
-
-## Writing
-
-### [Governance Is Not a Gate — It's an Execution Layer](./portfolio/case-studies/governance_not_a_gate.md)
-*Platform Philosophy · DevSecOps · Developer Experience*
-
-Most enterprises treat governance as an external review process. That model creates friction, delays, inconsistency, and blind spots. Modern governance should be enforced through execution — embedded, observable, measurable, and developer-aligned.
+**Key outcomes:** Full TLC dataset within 4GB RAM · reservoir error < 0.08% at p90 · resume-capable across interrupted runs · 56.7x speedup over original approach
 
 ---
 
 ## Contact
 
+- **Email:** tishj@ljjohnson.me
 - **LinkedIn:** [linkedin.com/in/tishjj](https://linkedin.com/in/tishjj)
 - **GitHub:** [github.com/TishJJ](https://github.com/TishJJ)
