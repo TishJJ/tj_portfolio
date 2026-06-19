@@ -8,8 +8,7 @@ This portfolio documents real work: decisions made under constraint, tradeoffs c
 
 ## Case Studies
 
-### [CI/CD Migration & Governance Platform](https://github.com/TishJJ/tj_portfolio/blob/main/portfolio/case-studies/cicd_governance_platform.md)
-
+### [CI/CD Migration & Governance Platform](./portfolio/case-studies/cicd_governance_platform.md)
 *Platform Engineering · IDP · DevSecOps · GitHub Actions*
 
 Inherited a CI/CD migration 12+ months behind schedule with no governance model and no security visibility. Designed and delivered a hybrid stub workflow architecture — 6 central workflows governing 200+ repositories — achieving a 107% increase in automated deployments, 50% faster releases, and 75% reduction in pipeline complexity.
@@ -18,8 +17,7 @@ Inherited a CI/CD migration 12+ months behind schedule with no governance model 
 
 ---
 
-### [Governance Is Not a Gate — It's an Acceleration Layer](https://github.com/TishJJ/tj_portfolio/blob/main/portfolio/case-studies/governance_not_a_gate.md)
-
+### [Governance Is Not a Gate — It's an Acceleration Layer](./portfolio/case-studies/governance_not_a_gate.md)
 *Platform Engineering · DevSecOps · Pipeline Architecture · Policy Enforcement*
 
 The gate model assumes two systems: delivery and governance. One builds and ships. The other reviews and approves. The handoff between them is where velocity goes to die. This piece documents a three-stage model for collapsing those two systems into one.
@@ -38,8 +36,7 @@ The connecting insight: treating pipeline execution as a data problem — not a 
 
 ADRs documenting technical decisions made under real constraints — with tradeoffs, alternatives considered, and where reasoning led. Includes explicit disclosure of AI collaboration where relevant.
 
-### [LLM Tooling Selection — Prompts, Scripts, MCP, and Frameworks](https://github.com/TishJJ/tj_portfolio/blob/main/portfolio/adr/adr_llm_tool_selection.md)
-
+### [LLM Tooling Selection — Prompts, Scripts, MCP, and Frameworks](./portfolio/adr/adr_llm_tool_selection.md)
 *AI Systems Architecture · Platform Engineering*
 
 A decision framework for choosing between prompts, scripts, local tools, MCP servers, and LLM orchestration frameworks. The central insight: establish decision ownership before selecting tooling. Who owns the decision — and what data the LLM is allowed to see — determines the right tool. Tooling selected before ownership is established inherits whatever is wrong about the assumption underneath it.
@@ -48,8 +45,7 @@ A decision framework for choosing between prompts, scripts, local tools, MCP ser
 
 ---
 
-### [DuckDB httpfs → Two-Pass Polars/PyArrow Architecture](https://github.com/TishJJ/tj_portfolio/blob/main/portfolio/adr/adr_duckdb_to_polars.md)
-
+### [DuckDB httpfs → Two-Pass Polars/PyArrow Architecture](./portfolio/adr/adr_duckdb_to_polars.md)
 *Data Engineering · Memory-Constrained Processing · AI Collaboration Disclosure*
 
 Documents the decision to move from DuckDB httpfs to a two-pass reservoir sampling architecture for processing 1.5B+ NYC Yellow Taxi TLC records within a 4GB RAM constraint. Includes an explicit AI collaboration layer documenting where Claude was adopted, modified, or overridden — and what that reveals about using LLMs as reasoning partners versus solution generators.
@@ -62,23 +58,21 @@ Documents the decision to move from DuckDB httpfs to a two-pass reservoir sampli
 
 Hands-on failure analysis with reproducible environments, layered evidence, and documented resolution methodology. Code and scripts included.
 
-### [Thread Pool Exhaustion — Failure Mode Analysis](https://github.com/TishJJ/tj_portfolio/blob/main/portfolio/labs/thread_pool_exhaustion/failure_mode_analysis.md)
-
+### [Thread Pool Exhaustion — Failure Mode Analysis](./portfolio/labs/thread_pools_exhaustion/failure_mode_analysis.md)
 *Systems Reliability · Failure Analysis · Flask · Gunicorn*
 
 A Flask API under concurrent load fills its thread pool entirely — every thread blocked waiting for an upstream that never returns. The service reports healthy throughout: process running, port listening, `/health` returning 200. Standard monitoring never fires. This lab reproduces the failure deterministically, traces it through process state, syscall behavior, and network state, and documents the distinction between remediation (clearing blocked threads) and resolution (fixing the design).
 
 **Key insight:** Health checks are a contract, not a guarantee. Proactive drift detection on leading indicators — thread utilization, P90 latency, connection state — catches this class of failure before the health check knows anything is wrong.
 
-**[→ Full lab with reproduction and resolution scripts](https://github.com/TishJJ/tj_portfolio/tree/main/portfolio/labs/thread_pool_exhaustion)**
+**[→ Full lab with reproduction and resolution scripts](./portfolio/labs/thread_pools_exhaustion)**
 
 ---
 
 ## External Projects
 
 ### [NYC Yellow Taxi — Distance Outlier Finder](https://github.com/TishJJ/TB_TakeHome)
-
-*Data Engineering · Python · Polars · PyArrow · DuckDB*
+*Data Engineering · Python · Polars · PyArrow*
 
 Find all NYC yellow taxi trips above the 90th percentile of trip distance across the full TLC historical dataset (2009–present, 1.5B+ rows). Solved real production constraints: CloudFront rate limiting blocking naive download approaches, OOM kills on both 4GB and 12GB environments. Implemented a two-pass architecture — PyArrow `iter_batches` reservoir sampling for threshold estimation, Polars lazy scan with predicate pushdown for outlier extraction.
 
@@ -86,8 +80,17 @@ Find all NYC yellow taxi trips above the 90th percentile of trip distance across
 
 ---
 
-## Contact
+## LinkedIn Articles
 
-- **Email:** tishj@ljjohnson.me
+### [Why Stub Workflows Are a Force Multiplier](https://www.linkedin.com/in/tishjj/recent-activity/articles/)
+*CI/CD Architecture · Platform Engineering*
+
+A practitioner's guide to the stub workflow pattern — how a small platform team can govern hundreds of repositories without burnout, and why the pattern generalizes beyond GitHub Actions to API gateways, Kubernetes operators, and control plane/data plane separation. Companion piece to the [CI/CD Migration & Governance Platform case study](./portfolio/case-studies/cicd_governance_platform.md).
+
+---
+
+## Connect
+
+- **Web:** [innozatesolutions.com](https://www.innozatesolutions.com)
 - **LinkedIn:** [linkedin.com/in/tishjj](https://linkedin.com/in/tishjj)
 - **GitHub:** [github.com/TishJJ](https://github.com/TishJJ)
