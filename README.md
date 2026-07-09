@@ -81,14 +81,6 @@ Find all NYC yellow taxi trips above the 90th percentile of trip distance across
 
 ---
 
-## LinkedIn Articles
-
-### [Why Stub Workflows Are a Force Multiplier](https://www.linkedin.com/in/tishjj/recent-activity/articles/)
-*CI/CD Architecture · Platform Engineering*
-
-A practitioner's guide to the stub workflow pattern — how a small platform team can govern hundreds of repositories without burnout, and why the pattern generalizes beyond GitHub Actions to API gateways, Kubernetes operators, and control plane/data plane separation. Companion piece to the [CI/CD Migration & Governance Platform case study](./portfolio/case-studies/cicd_governance_platform.md).
-
----
 
 ## Connect
 
