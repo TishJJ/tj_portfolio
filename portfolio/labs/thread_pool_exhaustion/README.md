@@ -57,6 +57,7 @@ assumption?"* is just as important as finding the smoking gun.
 This scenario uses real tools against a realistic failure mode and
 forces that conversation.
 
+ **[Deeper failure mode analysis →](https://github.com/TishJJ/tj_portfolio/tree/main/portfolio/labs/thread_pool_exhaustion/failure_mode_analysis.md)**
 ---
 
 ## The Problem
