@@ -66,7 +66,7 @@ A Flask API under concurrent load fills its thread pool entirely — every threa
 
 **Key insight:** Health checks are a contract, not a guarantee. Proactive drift detection on leading indicators — thread utilization, P90 latency, connection state — catches this class of failure before the health check knows anything is wrong.
 
-**[→ Full lab with reproduction and resolution scripts](portfolio/labs/thread_pool_exhaustion)**
+**[→ Full lab with reproduction and resolution scripts](https://github.com/TishJJ/tj_portfolio/tree/main/portfolio/labs/thread_pool_exhaustion)**
 
 ---
 
