@@ -58,7 +58,7 @@ Documents the decision to move from DuckDB httpfs to a two-pass reservoir sampli
 
 Hands-on failure analysis with reproducible environments, layered evidence, and documented resolution methodology. Code and scripts included.
 
-### [Thread Pool Exhaustion — Failure Mode Analysis](./portfolio/labs/thread_pool_exhaustion/README.md)
+### [Thread Pool Exhaustion — Failure Mode Analysis](portfolio/labs/thread_pool_exhaustion/failure_mode_analysis.md)
 
 *Systems Reliability · Failure Analysis · Flask · Gunicorn*
 
@@ -66,7 +66,7 @@ A Flask API under concurrent load fills its thread pool entirely — every threa
 
 **Key insight:** Health checks are a contract, not a guarantee. Proactive drift detection on leading indicators — thread utilization, P90 latency, connection state — catches this class of failure before the health check knows anything is wrong.
 
-**[→ Full lab with reproduction and resolution scripts](https://github.com/TishJJ/tj_portfolio/tree/main/portfolio/labs/thread_pool_exhaustion)**
+**[→ Full lab with reproduction and resolution scripts](portfolio/labs/thread_pool_exhaustion)**
 
 ---
 
